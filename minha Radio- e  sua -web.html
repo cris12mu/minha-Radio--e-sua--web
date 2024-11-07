@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>web ao vivo</title>
+
+<h1>Venha Fazer Parte do Nosso Grupo</h1>
+</head>
+<body style="background-color:rgb(125, 190, 166);">
+
+<h1>Radio Web MRA</h1>
+<p>Radio web joao pessoa</p>
+
+<audio controls autoplay muted>
+    <source src="horse.ogg" type="audio/ogg">
+    <source src="horse.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+  </audio>
+
+</body>
+<audio id="audioPlayer" controls></audio>
+
+<button id="startButton">Start Recording</button>
+<button id="stopButton" disabled>Stop Recording</button>
+<script>
+      const audioPlayer = document.getElementById('audioPlayer');
+
+const startButton = document.getElementById('startButton');
+
+const stopButton = document.getElementById('stopButton');
+
+startButton.addEventListener('click', () => {
+
+    navigator.mediaDevices.getUserMedia({ audio: true })
+
+        .then(stream => {
+
+            audioPlayer.srcObject = stream;
+
+            audioPlayer.play();
+
+            startButton.disabled = true;
+
+            stopButton.disabled = false;
+
+        })
+
+        .catch(err => console.error('Error accessing microphone:', err));
+
+});
+
+
+
+stopButton.addEventListener('click', () => {
+
+    const stream = audioPlayer.srcObject;
+
+    if (stream) {
+
+        stream.getTracks().forEach(track => track.stop());
+
+    }
+
+    startButton.disabled = false;
+
+    stopButton.disabled = true;
+
+});
+</script>
+
